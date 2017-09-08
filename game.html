@@ -1,0 +1,158 @@
+<html>
+<head>
+<title>Find Same Images</title>
+<style type="text/css">
+table {
+  border-collapse: separate;
+  border-spacing: 3px;
+  margin: 0 auto;
+}
+tbody.cells tr td {
+  border-width: 3px;
+  border-style: solid;
+  border-color: #ffffff;
+}
+tbody.cells tr td.selected.wrong {
+  border-color: #990099;
+}
+tbody.cells tr td.selected {
+  border-color: #ff0000;
+}
+</style>
+<script type="text/javascript">
+(function() {
+
+var images = [         // Set base64 encoded images
+];
+
+(function(images) {
+var self = {
+  _rows: 5,
+  _cols: 5,
+
+  rows: function() {
+    return self._rows;
+  },
+  images: function() {
+    return images;
+  },
+  cols: function() {
+    return self._cols;
+  },
+  toggle: function(element) {
+    if (element.className.match(/selected/)) {
+      self.unselect(element);
+    } else {
+      self.select(element);
+    }
+  },
+  select: function(element) {
+    var answers = self.answers();
+    if (self.selected().length >= answers.length) {
+      return;
+    }
+    element.className = element.className + ' selected';
+
+    if (self.selected().length == answers.length) {
+      if (self.judge()) {
+        self.finish();
+        self.start();
+      }
+    }
+  },
+  selected: function() {
+    return document.getElementsByClassName('selected')
+  },
+  finish: function() {
+    alert('Congratulations !');
+  },
+  unselect: function(element) {
+    element.className = element.className.replace(/selected/g, '').replace(/wrong/g, '').replace(/ +/g, ' ');
+  },
+  answers: function() {
+    return document.getElementsByClassName(self.answer());
+  },
+  answer: function() {
+    var ids = [];
+    var tds = document.getElementsByTagName('td');
+    for (var i = 0, l = tds.length; i < l; i++) {
+      if (tds[i].className.match(/(image\d+)/)) { 
+        ids.push(RegExp.$1);
+      }
+    }
+    for (var i = 0, l = ids.length; i < l; i++) {
+      if (ids.indexOf(ids[i]) != i) {
+        return ids[i];
+      }
+    }
+    console.error('No Answer');
+  },
+  judge: function() {
+    var selected = self.selected();
+    var answer = self.answer();
+    for (var i = 0, l = selected.length; i < l; i++) {
+      if (selected[i].className.match(/(image\d+)/)) { 
+        if (RegExp.$1 != answer) { 
+          selected[i].className = selected[i].className + ' wrong';
+        }
+      }
+    }
+    return document.getElementsByClassName('wrong').length == 0
+  },
+  randomNum: function(max) {
+    return Math.floor(Math.random() * max) + 1;
+  },
+  randomizeIndexes: function() {
+    var source = self.images().length;
+    var ids = [];
+    var cells = self.rows() * self.cols();
+    for (var i = 0; i < source; i++) {
+      ids.push(i);
+    }
+    var answer = self.randomNum(source);
+    for (var i = source; i < cells; i++) {
+      ids.push(answer - 1);
+    }
+    return ids;
+  },
+  start: function() {
+    document.getElementsByClassName('cells')[0].innerHTML = '';
+
+    var ids = self.randomizeIndexes();
+
+    var html = '';
+    for (var i = 0; i < self.rows(); i++) {
+      var tr = '<tr>';
+      for (var j = 0; j < self.cols(); j++) {
+        var num = ids.splice(self.randomNum(ids.length) - 1, 1);
+        var num_text = num > 9 ? num : ('0' + num);
+        tr += '<td class="%{id}"><img src="data:image/png;base64,%{image}"></td>'.replace(/%{id}/g, 'image'+num_text).replace(/%{image}/g, self.images()[num]); 
+      }
+      html += tr + '</tr>';
+    }
+    document.getElementsByClassName('cells')[0].innerHTML = html;
+    var tds = document.getElementsByTagName('td');
+    for (var i = 0, l = tds.length; i < l; i++) {
+      tds[i].onclick = function() { self.toggle(this); }; 
+    }
+  },
+
+  init: function() {
+    self.start();
+  },
+}
+
+window.onload = function() { self.init(); }
+
+})(images);
+
+})();
+</script>
+</head>
+<body>
+<table>
+<tbody class="cells">
+</tbody>
+</table>
+</body>
+</html>
