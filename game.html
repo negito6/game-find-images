@@ -125,6 +125,9 @@ var self = {
   randomNum: function(max) {
     return Math.floor(Math.random() * max) + 1;
   },
+  difficulty: function() {
+    return Math.sqrt(self._num_try + 1) + 1;
+  },
   randomizeIndexes: function() {
     var source = self.images().length;
     var ids = [];
@@ -168,7 +171,7 @@ var self = {
     }
   },
   start: function() {
-    var difficulty = 5;
+    var difficulty = self.difficulty();
     var minimum = 2;
     self._rows = self.randomNum(difficulty) + minimum;
     self._cols = self.randomNum(difficulty) + minimum;
