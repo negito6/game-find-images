@@ -30,8 +30,8 @@ var images = [         // Set base64 encoded images
 
 (function(images) {
 var self = {
-  _rows: 5,
-  _cols: 5,
+  _rows: null,
+  _cols: null,
 
   rows: function() {
     return self._rows;
@@ -128,7 +128,7 @@ var self = {
     }
     return ids;
   },
-  start: function() {
+  initTable: function() {
     document.getElementsByClassName('cells')[0].innerHTML = '';
 
     var ids = self.randomizeIndexes();
@@ -149,7 +149,14 @@ var self = {
       tds[i].onclick = function() { self.toggle(this); }; 
     }
   },
+  start: function() {
+    var difficulty = 3;
+    var minimum = 4;
+    self._rows = self.randomNum(difficulty) + minimum;
+    self._cols = self.randomNum(difficulty) + minimum;
 
+    self.initTable();
+  },
   init: function() {
     self.start();
   },
