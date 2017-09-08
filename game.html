@@ -35,6 +35,7 @@ var images = [         // Set base64 encoded images
 var self = {
   _timer: null,
   _startTime: null,
+  _num_try: 0,
   _rows: null,
   _cols: null,
 
@@ -168,6 +169,11 @@ var self = {
 
     self._startTime = self.now();
     self._timer = setInterval(self.updateElapsed, 19);
+    self.updateTry();
+  },
+  updateTry: function() {
+    self._num_try++;
+    document.getElementsByClassName('try_times')[0].innerHTML = self._num_try;
   },
   updateElapsed: function() {
     var max = 1000;
@@ -209,5 +215,5 @@ window.onload = function() { self.init(); }
 </tbody>
 </table>
 </body>
-<p><span class="elapsed">0</span>seconds</p>
+<p>tried <span class="try_times">0</span> times: <span class="elapsed">0</span>seconds</p>
 </html>
