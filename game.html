@@ -2,7 +2,7 @@
 <head>
 <title>Find Same Images</title>
 <style type="text/css">
-p {
+h1, p {
   text-align: center;
 }
 table {
@@ -28,10 +28,11 @@ tbody.cells tr td.selected {
 <script type="text/javascript">
 (function() {
 
+var target = ''; // Set your image name
 var images = [         // Set base64 encoded images
 ];
 
-(function(images) {
+(function(images, target) {
 var self = {
   _timer: null,
   _startTime: null,
@@ -208,19 +209,27 @@ var self = {
   elapsed: function() {
     return parseInt((self.now() - self._startTime)/10)/100;
   },
+  changeTitle: function() {
+    document.title = 'Find Same ' + target;
+    document.getElementsByClassName('main_title')[0].innerHTML = document.title + ' !!';
+  },
   init: function() {
+    if (target) {
+      self.changeTitle();
+    }
     self.start();
   },
 }
 
 window.onload = function() { self.init(); }
 
-})(images);
+})(images, target);
 
 })();
 </script>
 </head>
 <body>
+<h1 class="main_title">Find Same Images !</h1>
 <table>
 <tbody class="cells">
 </tbody>
