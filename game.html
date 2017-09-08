@@ -132,9 +132,17 @@ var self = {
     for (var i = 0; i < source; i++) {
       ids.push(i);
     }
-    var answer = self.randomNum(source);
-    for (var i = source; i < cells; i++) {
-      ids.push(answer - 1);
+    if (cells > source) {
+      var answer = self.randomNum(source);
+      for (var i = source; i < cells; i++) {
+        ids.push(answer - 1);
+      }
+    } else {
+      for (var i = source; i >= cells; i--) {
+        ids.splice(self.randomNum(ids.length) - 1, 1);
+      }
+      var answer = ids[self.randomNum(ids.length) - 1];
+      ids.push(answer);
     }
     return ids;
   },
@@ -160,8 +168,8 @@ var self = {
     }
   },
   start: function() {
-    var difficulty = 3;
-    var minimum = 4;
+    var difficulty = 5;
+    var minimum = 2;
     self._rows = self.randomNum(difficulty) + minimum;
     self._cols = self.randomNum(difficulty) + minimum;
 
