@@ -224,7 +224,9 @@ var self = {
     if (target) {
       self.changeTitle();
     }
-    self.start();
+    if (self.images().length > 0) {
+      self.start();
+    }
   },
 }
 
