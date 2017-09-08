@@ -2,6 +2,9 @@
 <head>
 <title>Find Same Images</title>
 <style type="text/css">
+p {
+  text-align: center;
+}
 table {
   border-collapse: separate;
   border-spacing: 3px;
@@ -30,6 +33,8 @@ var images = [         // Set base64 encoded images
 
 (function(images) {
 var self = {
+  _timer: null,
+  _startTime: null,
   _rows: null,
   _cols: null,
 
@@ -66,7 +71,11 @@ var self = {
   selected: function() {
     return document.getElementsByClassName('selected')
   },
+  stopTimer: function() {
+    self._timer = null;
+  },
   finish: function() {
+    self.stopTimer();
     alert('Congratulations !');
   },
   unselect: function(element) {
@@ -156,6 +165,18 @@ var self = {
     self._cols = self.randomNum(difficulty) + minimum;
 
     self.initTable();
+
+    self._startTime = self.now();
+    self._timer = setInterval(self.updateElapsed, 19);
+  },
+  updateElapsed: function() {
+    document.getElementsByClassName('elapsed')[0].innerHTML = self.elapsed();
+  },
+  now: function() {
+    return (new Date()).getTime();
+  },
+  elapsed: function() {
+    return parseInt((self.now() - self._startTime)/10)/100;
   },
   init: function() {
     self.start();
@@ -175,4 +196,5 @@ window.onload = function() { self.init(); }
 </tbody>
 </table>
 </body>
+<p><span class="elapsed">0</span>seconds</p>
 </html>
