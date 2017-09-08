@@ -170,7 +170,20 @@ var self = {
     self._timer = setInterval(self.updateElapsed, 19);
   },
   updateElapsed: function() {
-    document.getElementsByClassName('elapsed')[0].innerHTML = self.elapsed();
+    var max = 1000;
+    var elapsed = self.elapsed();
+    if (elapsed > max) {
+      self.stopTimer();
+      document.getElementsByClassName('elapsed')[0].innerHTML = 'Over ' + max;
+    } else {
+      var elapsed_text = elapsed + '';
+      if (elapsed_text.indexOf('.') < 0) {
+        elapsed_text += '.00';
+      } else if (elapsed_text.match(/(\.\d)$/)) {
+        elapsed_text += '0';
+      }
+      document.getElementsByClassName('elapsed')[0].innerHTML = elapsed_text;
+    }
   },
   now: function() {
     return (new Date()).getTime();
