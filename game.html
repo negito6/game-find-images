@@ -12,6 +12,9 @@ tbody.cells tr td {
   border-style: solid;
   border-color: #ffffff;
 }
+tbody.cells tr td.selected.not_wrong {
+  border-color: #ffcccc;
+}
 tbody.cells tr td.selected.wrong {
   border-color: #990099;
 }
@@ -67,6 +70,10 @@ var self = {
     alert('Congratulations !');
   },
   unselect: function(element) {
+    var selected = self.selected();
+    for (var i = 0, l = selected.length; i < l; i++) {
+      selected[i].className = selected[i].className.replace(/not_wrong/g, '').replace(/ +/g, ' ');
+    }
     element.className = element.className.replace(/selected/g, '').replace(/wrong/g, '').replace(/ +/g, ' ');
   },
   answers: function() {
@@ -97,7 +104,13 @@ var self = {
         }
       }
     }
-    return document.getElementsByClassName('wrong').length == 0
+    var ok = document.getElementsByClassName('wrong').length == 0
+    for (var i = 0, l = selected.length; i < l; i++) {
+      if (!selected[i].className.match(/wrong/)) {
+        selected[i].className = selected[i].className + ' not_wrong';
+      }
+    }
+    return ok;
   },
   randomNum: function(max) {
     return Math.floor(Math.random() * max) + 1;
