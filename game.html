@@ -184,6 +184,9 @@ var self = {
       html += tr + '</tr>';
     }
     document.getElementsByClassName('cells')[0].innerHTML = html;
+    self.attachToggleEvent();
+  },
+  attachToggleEvent: function() {
     var tds = document.getElementsByTagName('td');
     for (var i = 0, l = tds.length; i < l; i++) {
       tds[i].onclick = function() { self.toggle(this); }; 
