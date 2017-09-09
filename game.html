@@ -108,7 +108,7 @@ var self = {
     }
     console.error('No Answer');
   },
-  judge: function() {
+  markAsWrong: function() {
     var selected = self.selected();
     var answer = self.answer();
     for (var i = 0, l = selected.length; i < l; i++) {
@@ -119,6 +119,9 @@ var self = {
         }
       }
     }
+  },
+  judge: function() {
+    self.markAsWrong();
     var ok = document.getElementsByClassName('wrong').length == 0
     for (var i = 0, l = selected.length; i < l; i++) {
       if (!selected[i].className.match(/wrong/)) {
