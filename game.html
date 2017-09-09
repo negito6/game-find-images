@@ -62,7 +62,10 @@ var self = {
       return;
     }
     element.className = element.className + ' selected';
-
+    self.afterSelect();
+  },
+  afterSelect: function() {
+    var answers = self.answers();
     if (self.selected().length == answers.length) {
       if (self.judge()) {
         self.finish();
