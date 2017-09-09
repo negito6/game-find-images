@@ -123,12 +123,16 @@ var self = {
   judge: function() {
     self.markAsWrong();
     var ok = document.getElementsByClassName('wrong').length == 0
+    self.markAsNotWrong();
+    return ok;
+  },
+  markAsNotWrong: function() {
+    var selected = self.selected();
     for (var i = 0, l = selected.length; i < l; i++) {
       if (!selected[i].className.match(/wrong/)) {
         selected[i].className = selected[i].className + ' not_wrong';
       }
     }
-    return ok;
   },
   randomNum: function(max) {
     return Math.floor(Math.random() * max) + 1;
