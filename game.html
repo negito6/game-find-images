@@ -134,6 +134,10 @@ var self = {
       }
     }
   },
+  randomSquare: function(max) {
+    var random = Math.random();
+    return Math.floor(random * random * max) + 1;
+  },
   randomNum: function(max) {
     return Math.floor(Math.random() * max) + 1;
   },
@@ -153,18 +157,17 @@ var self = {
         ids.push(answer - 1);
       }
     } else {
-      for (var i = source; i >= cells; i--) {
+      for (var i = source; i > cells; i--) {
         ids.splice(self.randomNum(ids.length) - 1, 1);
       }
-      var position = self.randomNum(ids.length);
-      if (position % 2) { // add answer case with a 50% chance
-        ids.splice(position - 1, 1);
-      }
-      var answer = ids[self.randomNum(ids.length) - 1];
-      ids.push(answer);
-      if (position % 2) {
+      var answer = ids.splice(self.randomNum(ids.length) - 1, 1)[0];
+      var num = self.randomSquare(ids.length / 2);
+      var end = ids.length;
+      for (var i = 0; i < num; i++) {
+        ids.splice(self.randomNum(end - i) - 1, 1);
         ids.push(answer);
       }
+      ids.push(answer);
     }
     return ids;
   },
