@@ -109,9 +109,10 @@ var self = {
     var selected = self.selected();
     var answer = self.answer();
     for (var i = 0, l = selected.length; i < l; i++) {
-      if (selected[i].className.match(/(image\d+)/)) { 
-        if (RegExp.$1 != answer) { 
-          selected[i].className = selected[i].className + ' wrong';
+      var className = selected[i].className;
+      if (className.match(/(image\d+)/)) {
+        if (RegExp.$1 != answer && !className.match(/wrong/)) {
+          selected[i].className = className + ' wrong';
         }
       }
     }
