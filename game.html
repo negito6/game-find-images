@@ -169,6 +169,11 @@ var self = {
   difficulty: function() {
     return Math.sqrt(self._num_try + 1) + 1;
   },
+  isTableLarge: function() {
+    var source = self.images().length;
+    var cells = self.rows() * self.cols();
+    return cells > source;
+  },
   randomizeIndexes: function() {
     var source = self.images().length;
     var ids = [];
@@ -176,7 +181,7 @@ var self = {
     for (var i = 0; i < source; i++) {
       ids.push(i);
     }
-    if (cells > source) {
+    if (self.isTableLarge()) {
       var answer = self.randomNum(source);
       for (var i = source; i < cells; i++) {
         ids.push(answer - 1);
