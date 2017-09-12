@@ -208,6 +208,7 @@ var self = {
     document.getElementsByClassName('cells')[0].innerHTML = '';
 
     var ids = self.randomizeIndexes();
+    var rotate = self.isTableLarge();
 
     var html = '';
     for (var i = 0; i < self.rows(); i++) {
@@ -215,7 +216,7 @@ var self = {
       for (var j = 0; j < self.cols(); j++) {
         var num = ids.splice(self.randomNum(ids.length) - 1, 1);
         var num_text = num > 9 ? num : ('0' + num);
-        var transform = self.randomizedRotateClass();
+        var transform = rotate ? self.randomizedRotateClass() : '';
         tr += '<td class="%{id} %{transform}"><img src="data:image/png;base64,%{image}"></td>'.replace(/%{id}/g, 'image'+num_text)
                                                                                               .replace(/%{image}/g, self.images()[num])
                                                                                               .replace(/%{transform}/g, transform);
