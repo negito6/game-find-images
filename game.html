@@ -24,6 +24,15 @@ tbody.cells tr td.selected.wrong {
 tbody.cells tr td.selected {
   border-color: #ff0000;
 }
+tbody.cells tr td.rotate90 {
+  transform: rotate(90deg);
+}
+tbody.cells tr td.rotate180 {
+  transform: rotate(180deg);
+}
+tbody.cells tr td.rotate270 {
+  transform: rotate(-90deg);
+}
 </style>
 <script type="text/javascript">
 (function() {
@@ -187,6 +196,9 @@ var self = {
     }
     return ids;
   },
+  randomizedRotateClass: function() {
+    return 'rotate' + (self.randomNum(4) - 1) * 90;
+  },
   initTable: function() {
     document.getElementsByClassName('cells')[0].innerHTML = '';
 
@@ -198,8 +210,10 @@ var self = {
       for (var j = 0; j < self.cols(); j++) {
         var num = ids.splice(self.randomNum(ids.length) - 1, 1);
         var num_text = num > 9 ? num : ('0' + num);
+        var transform = self.randomizedRotateClass();
         tr += '<td class="%{id} %{transform}"><img src="data:image/png;base64,%{image}"></td>'.replace(/%{id}/g, 'image'+num_text)
-                                                                                              .replace(/%{image}/g, self.images()[num]);
+                                                                                              .replace(/%{image}/g, self.images()[num])
+                                                                                              .replace(/%{transform}/g, transform);
       }
       html += tr + '</tr>';
     }
