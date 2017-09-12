@@ -57,6 +57,15 @@ var self = {
     }
   },
   select: function(element) {
+    while (self.wrongs().length > 0) {
+      var wrong = self.wrongs()[0];
+      wrong.className = wrong.className.replace(/select/g, '').replace(/wrong/g, '').replace(/ +/g, ' ');
+    }
+    var selected = self.selected();
+    for (var i = 0, l = selected.length; i < l; i++) {
+      selected[i].className = selected[i].className.replace(/not_wrong/g, '').replace(/ +/g, ' ');
+    }
+
     var answers = self.answers();
     if (self.selected().length >= answers.length) {
       return;
@@ -89,6 +98,9 @@ var self = {
       selected[i].className = selected[i].className.replace(/not_wrong/g, '').replace(/ +/g, ' ');
     }
     element.className = element.className.replace(/selected/g, '').replace(/wrong/g, '').replace(/ +/g, ' ');
+  },
+  wrongs: function() {
+    return document.getElementsByClassName('wrong');
   },
   answers: function() {
     return document.getElementsByClassName(self.answer());
