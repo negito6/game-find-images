@@ -90,7 +90,9 @@ var self = {
   },
   finish: function() {
     self.stopTimer();
-    alert('Congratulations !');
+    var avg = self.milisecToSec(self.elapsed() / self.answers().length, 2);
+    var message = 'Congratulations ! You took ' + avg + ' seconds per one image. Try next !'
+    alert(message);
   },
   unselect: function(element) {
     var selected = self.selected();
