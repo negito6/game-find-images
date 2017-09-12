@@ -196,7 +196,8 @@ var self = {
       for (var j = 0; j < self.cols(); j++) {
         var num = ids.splice(self.randomNum(ids.length) - 1, 1);
         var num_text = num > 9 ? num : ('0' + num);
-        tr += '<td class="%{id}"><img src="data:image/png;base64,%{image}"></td>'.replace(/%{id}/g, 'image'+num_text).replace(/%{image}/g, self.images()[num]); 
+        tr += '<td class="%{id} %{transform}"><img src="data:image/png;base64,%{image}"></td>'.replace(/%{id}/g, 'image'+num_text)
+                                                                                              .replace(/%{image}/g, self.images()[num]);
       }
       html += tr + '</tr>';
     }
