@@ -212,26 +212,30 @@ var self = {
     document.getElementsByClassName('try_times')[0].innerHTML = self._num_try;
   },
   updateElapsed: function() {
-    var max = 1000;
+    var max_sec = 1000;
     var elapsed = self.elapsed();
-    if (elapsed > max) {
+    if (elapsed > max_sec * 1000) {
       self.stopTimer();
-      document.getElementsByClassName('elapsed')[0].innerHTML = 'Over ' + max;
+      document.getElementsByClassName('elapsed')[0].innerHTML = 'Over ' + max_sec;
     } else {
-      var elapsed_text = elapsed + '';
-      if (elapsed_text.indexOf('.') < 0) {
-        elapsed_text += '.00';
-      } else if (elapsed_text.match(/(\.\d)$/)) {
-        elapsed_text += '0';
-      }
-      document.getElementsByClassName('elapsed')[0].innerHTML = elapsed_text;
+      document.getElementsByClassName('elapsed')[0].innerHTML = self.milisecToSec(elapsed, 2);
     }
+  },
+  milisecToSec: function(milisec, digit) {
+    dight = 2; // fixed
+    var text = parseInt(milisec/10)/100 + '';
+    if (text.indexOf('.') < 0) {
+      text += '.00';
+    } else if (text.match(/(\.\d)$/)) {
+      text += '0';
+    }
+    return text;
   },
   now: function() {
     return (new Date()).getTime();
   },
   elapsed: function() {
-    return parseInt((self.now() - self._startTime)/10)/100;
+    return (self.now() - self._startTime);
   },
   changeTitle: function() {
     document.title = 'Find Same ' + target;
